@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import chatRouter from './router/chatRouter.js'  
+import productRouter from './router/productRouter.js'  
 
 const server = express();
 server
@@ -8,6 +9,7 @@ server
   .use(express.json());
 
 server.use('/chat',chatRouter)
+server.use('/product',productRouter)
 
 
 
