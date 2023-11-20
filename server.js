@@ -10,8 +10,6 @@ server
 server.use('/chat',chatRouter)
 
 
-
-
 server.listen(8000,()=>{
   console.log('server start')
 })
