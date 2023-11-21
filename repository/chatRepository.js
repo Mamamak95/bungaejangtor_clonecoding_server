@@ -7,9 +7,9 @@ return db.execute(
 
 }
 
-export async function getChatLog(){
+export async function getChatLog(crid){
 return db.execute(
-  ''
-  )
+  'select content,isBuyerSend, date_format(date,"%Y:%m:%d:%H:%i:%s") as date from chat where crid=? order by date',[crid]
+  ).then(data=>data[0])
 
 } 

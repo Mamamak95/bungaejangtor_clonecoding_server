@@ -7,7 +7,7 @@ export async function getChat(req,res){
 }
 
 export async function getChatLog(req,res){
-  const {id}=req.body
-  const data=chatRepository.getChatLog(id)
-
+  const {crid}=req.body
+  const data=await chatRepository.getChatLog(crid)
+res.json(data)
 }
