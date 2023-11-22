@@ -13,3 +13,10 @@ return db.execute(
   ).then(data=>data[0])
 
 } 
+
+export async function sendMessage(crid,isBuyerSend,content){
+  return db.execute(
+    'insert into chat(date,content,isBuyerSend,crid) values(curdate(),?,?,?)',[content,isBuyerSend,crid]
+  ).then(res=>getChatLog(crid))
+
+}
