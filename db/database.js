@@ -8,4 +8,4 @@ const pool = mysql.createPool({
   database: "bunjang",
 });
 
-export const db = pool.promise();
+export const db= pool.promise()

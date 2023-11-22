@@ -12,8 +12,6 @@ server.use('/chat',chatRouter)
 server.use('/product',productRouter)
 
 
-
-
 server.listen(8000,()=>{
   console.log('server start')
 })
