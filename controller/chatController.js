@@ -15,5 +15,6 @@ res.json(data)
 export async function sendMessage(req,res){
   const {crid,isBuyerSend,content}=req.body
   const data=await chatRepository.sendMessage(crid,isBuyerSend,content)
+  console.log(data)
   res.json(data)
 }
