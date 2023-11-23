@@ -7,10 +7,10 @@ const server = express();
 server
   .use(cors())
   .use(express.json());
-
+  
 server.use('/chat',chatRouter)
 server.use('/product',productRouter)
-
+server.use('/uploads',express.static('uploads'))
 
 
 
