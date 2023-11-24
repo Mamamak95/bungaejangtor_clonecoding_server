@@ -10,7 +10,7 @@ server
   
 server.use('/chat',chatRouter)
 server.use('/product',productRouter)
-server.use('/uploads',express.static('uploads'))
+server.use('/productImg',express.static('productImg'))
 
 server.listen(8000,()=>{
   console.log('server start')
