@@ -1,18 +1,32 @@
-import * as productsRepository from '../repository/productsRepository.js'
+import * as productsRepository from '../repository/productsRepository.js';
+import multer from 'multer';
+import path from 'path';
 
+// 이미지를 저장할 디렉토리 설정
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'productImg/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  },
+});
 
-
-
+const upload = multer({ storage: storage }).array('images');
 
 export async function newProduct(req, res) {
+  let imgUrl = [];
+  upload(req, res, err => {
+    if (err) {
+      console.log(err);
+    } else {
 
-  // if (req.file) {
-  //   res.json({ success: true, message: '이미지가 성공적으로 업로드되었습니다.' });
-  // } else {
-  //   res.json({ success: false, message: '이미지 업로드에 실패했습니다.' });
-  // }
-  let { img, seller, productName, category, place, price, content } = req.body;
-  img = req.file.path
-  const result = await productsRepository.newProduct(seller, productName, content, price, place, category);
-  res.json(result)
+      let { img, seller, productName, category, place, price, content } = JSON.parse(req.body.form);
+      imgUrl = req.files.map(file => {
+        return file.path;
+      });
+      console.log(imgUrl);
+      img = imgUrl[0]
+    }
+  });
 }
