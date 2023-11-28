@@ -11,6 +11,7 @@ server
 server.use('/chat',chatRouter)
 server.use('/product',productRouter)
 server.use('/productImg',express.static('productImg'))
+server.use('/webImg',express.static('webImg'))
 
 server.listen(8000,()=>{
   console.log('server start')
