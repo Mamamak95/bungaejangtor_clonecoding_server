@@ -16,17 +16,32 @@ const upload = multer({ storage: storage }).array('images');
 
 export async function newProduct(req, res) {
   let imgUrl = [];
-  upload(req, res, err => {
+  await upload(req, res, async (err) => {
     if (err) {
       console.log(err);
     } else {
 
-      let { img, seller, productName, category, place, price, content } = JSON.parse(req.body.form);
+      let {seller, productName, category, place, price, content } = JSON.parse(req.body.form);
+
+      
+      let pid = await productsRepository.newProduct(seller, productName,content, price, place, category)
+      console.log(pid);
+
       imgUrl = req.files.map(file => {
         return file.path;
       });
-      console.log(imgUrl);
-      img = imgUrl[0]
+
+      let result =[]
+      try {
+        for (let img of imgUrl) {
+          let success = await productsRepository.productImg(pid,img);
+          result.push(success)
+        };
+      } catch (error) {
+        console.error(error);
+      }
+      console.log(result);
+      res.json(result);
     }
   });
 }
