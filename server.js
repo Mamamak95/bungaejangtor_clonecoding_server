@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import chatRouter from "./router/chatRouter.js";
 import productRouter from "./router/productRouter.js";
+import loginRouter from "./router/loginRouter.js"
+import signRouter from "./router/signRouter.js"
 
 const server = express();
 const PORT = 8000;
