@@ -17,6 +17,7 @@ server.use("/chat", chatRouter);
 server.use("/product", productRouter);
 server.use("/productImg", express.static("productImg"));
 server.use("/webImg", express.static("webImg"));
+server.use("/userImg", express.static("userImg"));
 
 server.listen(PORT, () => {
   console.log(`server running --> ${PORT}`);
