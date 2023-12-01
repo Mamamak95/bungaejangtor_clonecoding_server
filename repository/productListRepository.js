@@ -1,37 +1,20 @@
 import { db } from '../db/database.js'
 
-// export async function getAll({itemCount}) {
-//   const sql = `select
-//                   row_number() over (order by p.regdate) as pno, 
-//                   p.productName,
-//                   p.price, 
-//                   p.regdate, 
-//                   pi.img, 
-//                   p.pid 
-//                 from 
-//                     product p ,productimage pi
-//                 where 
-//                     p.pid = pi.pid 
-//                 and p.pid between ? and ?`
-//   return db
-//     .execute(sql,[itemCount])
-//     .then((result) => result[0])
-// }
-
 export async function getAll() {
   const sql = `  
-                select row_number() over (order by p.regdate) as pno, 
-                  p.productName,
-                  p.price,
-                  left(p.regdate, 4) regdate,
-                  pi.img, 
-                  p.pid 
-                from 
-                    product p ,productimage pi
-                where 
-                    p.pid = pi.pid
-                and 
-                    p.pid LIMIT 5 offset 0`
+                SELECT 
+                      DISTINCT p.pid, 
+                      p.productName,
+                      first_value(pi.img) over (PARTITION BY p.pid ORDER BY pi.pid) AS img,
+                      p.regdate,
+                      format(p.price,0) price, 
+                      first_value(pi.img) over(order by pi.pid)
+                FROM 
+                      product p JOIN productImage pi 
+                ON 
+                      p.pid = pi.pid
+                LIMIT 10 offset 0
+              `
 
   return db
     .execute(sql)
@@ -39,20 +22,20 @@ export async function getAll() {
 }
 
 export async function loadMore({newLimit, offset}) {
-  const sql = `select
-                  row_number() over (order by p.regdate) as pno, 
-                  p.productName,
-                  p.price,
-                  left(p.regdate, 10) regdate,
-                  pi.img, 
-                  p.pid 
-                from 
-                    product p ,productimage pi
-                where 
-                    p.pid = pi.pid
-                ORDER BY 
-                    p.regdate
-                LIMIT ? OFFSET ?`
+  const sql = `
+                SELECT 
+                      DISTINCT p.pid, 
+                      p.productName,
+                      first_value(pi.img) over (PARTITION BY p.pid ORDER BY pi.pid) AS img,
+                      p.regdate,
+                      format(p.price,0) price, 
+                      first_value(pi.img) over(order by pi.pid)
+                FROM 
+                      product p JOIN productImage pi 
+                ON 
+                      p.pid = pi.pid
+                LIMIT ? offset ?
+              `
 
   return db
     .execute(sql,[newLimit,offset])
