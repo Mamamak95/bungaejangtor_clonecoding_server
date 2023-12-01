@@ -5,7 +5,7 @@ import express from 'express'
 const router = express.Router()
 
 
-
+router.get('/:pid',productController.detail)
 router.post('/new/:id',productController.newProduct);
 
 
