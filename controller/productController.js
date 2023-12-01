@@ -14,6 +14,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).array('images');
 
+// 상품등록
 export async function newProduct(req, res) {
   let imgUrl = [];
   await upload(req, res, async (err) => {
@@ -40,8 +41,21 @@ export async function newProduct(req, res) {
       } catch (error) {
         console.error(error);
       }
-      console.log(result);
       res.json(result);
     }
   });
+}
+
+// 상품상세
+
+export async function detail(req,res) {
+  let {pid} = req.params;
+  let result = await productsRepository.detail(pid);
+  let result2 = await productsRepository.similiar();
+
+  let seller = result[0].seller
+
+  let result3 = await productsRepository.shop(seller); 
+
+  res.json({product:result[0],slide:result2,shopData:result3})
 }
