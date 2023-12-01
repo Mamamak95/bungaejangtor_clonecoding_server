@@ -50,8 +50,9 @@ export async function loadMore({newLimit, offset}) {
                     product p ,productimage pi
                 where 
                     p.pid = pi.pid
-                and 
-                    p.pid LIMIT ? offset ?`
+                ORDER BY 
+                    p.regdate
+                LIMIT ? OFFSET ?`
 
   return db
     .execute(sql,[newLimit,offset])
