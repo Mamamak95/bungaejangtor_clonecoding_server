@@ -12,18 +12,19 @@ export async function getChat(id) {
 export async function getChatLog(crid) {
   return db
     .execute(
-      'select content,isBuyerSend, date_format(date,"%Y:%m:%d:%H:%i:%s") as date from chat where crid=? order by date',
+      'select content,sender,receiver, date_format(date,"%Y:%m:%d:%H:%i:%s") as date from chat where crid=? order by date',
       [crid]
     )
     .then((data) => data[0]);
 }
 
-export async function sendMessage(crid, isBuyerSend, content) {
-  
-  return db.execute(
-    "insert into chat(date,content,isBuyerSend,crid) values(now(),?,?,?)",
-    [content, isBuyerSend, crid]
-  ).then((res) => updateLastMessage(crid, content));
+export async function sendMessage(crid, sender, receiver, content) {
+  return db
+    .execute(
+      "insert into chat(date,content,sender,receiver,crid) values(now(),?,?,?,?)",
+      [content, sender, receiver, crid]
+    )
+    .then((res) => updateLastMessage(crid, content));
 }
 
 async function updateLastMessage(crid) {
@@ -36,11 +37,12 @@ async function updateLastMessage(crid) {
   const content = data.content;
   const date = data.date;
   return db
-    .execute("update chatRoom set lastestMessage=?,lastestDate=? where crid=?",
-     [ content, date, crid ])
-    .then(async(res) => {
-      
-      const a=await getChatLog(crid)
-      return a
-    })
+    .execute(
+      "update chatRoom set lastestMessage=?,lastestDate=? where crid=?",
+      [content, date, crid]
+    )
+    .then(async (res) => {
+      const a = await getChatLog(crid);
+      return a;
+    });
 }
