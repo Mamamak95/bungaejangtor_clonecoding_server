@@ -7,8 +7,7 @@ export async function getAll() {
                       p.productName,
                       first_value(pi.img) over (PARTITION BY p.pid ORDER BY pi.pid) AS img,
                       p.regdate,
-                      format(p.price,0) price, 
-                      first_value(pi.img) over(order by pi.pid)
+                      format(p.price,0) price
                 FROM 
                       product p JOIN productImage pi 
                 ON 
@@ -28,8 +27,7 @@ export async function loadMore({newLimit, offset}) {
                       p.productName,
                       first_value(pi.img) over (PARTITION BY p.pid ORDER BY pi.pid) AS img,
                       p.regdate,
-                      format(p.price,0) price, 
-                      first_value(pi.img) over(order by pi.pid)
+                      format(p.price,0) price
                 FROM 
                       product p JOIN productImage pi 
                 ON 
