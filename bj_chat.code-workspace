@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "bj_chat",
+			"path": "../bj_chat"
+		},
+		{
+			"name": "bj_server",
+			"path": "."
+		}
+	],
+	"settings": {}
+}
