@@ -1,5 +1,6 @@
 import { db } from "../db/database.js";
 
+//채팅방 정보 요청
 export async function getChat(id) {
   return db
     .execute(
@@ -9,6 +10,7 @@ export async function getChat(id) {
     .then((res) => res[0]);
 }
 
+//해당 채팅방 채팅 로그 요청
 export async function getChatLog(crid) {
   return db
     .execute(
@@ -18,6 +20,7 @@ export async function getChatLog(crid) {
     .then((data) => data[0]);
 }
 
+//신규 메세지 DB에 저장
 export async function sendMessage(crid, sender, receiver, content) {
   return db
     .execute(
@@ -27,6 +30,7 @@ export async function sendMessage(crid, sender, receiver, content) {
     .then((res) => updateLastMessage(crid, content));
 }
 
+//채팅방 정보에 신규 메세지 갱신
 async function updateLastMessage(crid) {
   const data = await db
     .execute(
@@ -45,4 +49,27 @@ async function updateLastMessage(crid) {
       const a = await getChatLog(crid);
       return a;
     });
+}
+
+//채팅방 생성
+export async function createChatRoom(uid, pid) {
+  const check = await db
+    .execute("select count(*) cnt from chatRoom where buyer=? and pid=?", [
+      uid,
+      pid,
+    ])
+    .then((res) => res[0][0].cnt);
+    console.log('check',check)
+  const seller = await db.execute("select seller from product where pid=?", [pid]).then(res=>res[0][0].seller)
+  console.log('seller',seller)
+
+  if (check==0) {
+    return db
+      .execute(
+        'insert into chatRoom(buyer,seller,lastestMessage,lastestDate,pid,buyerCheck) values(?,?,"",sysdate(),?,sysdate())',
+        [uid, seller, pid]
+      )
+      .then((res) => "create")
+      .catch((err) => "fail");
+  } else return "success";
 }
