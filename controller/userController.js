@@ -19,6 +19,14 @@ export async function getUserId(req, res){
   res.json(result);
 }
 
+/* 폰번호 체크 */
+export async function getUserTel(req, res){
+  const tel = req.params.tel;
+  const result = await userRepository.getUserTel( tel );
+
+  res.json(result);
+}
+
 /* 로그인 */
 export async function getLogin(req, res){
   const { uid, pw } = req.body;
@@ -39,3 +47,4 @@ export async function getLogin(req, res){
   }
   res.json(result)
 }
+

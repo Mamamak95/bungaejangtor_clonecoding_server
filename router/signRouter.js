@@ -7,4 +7,6 @@ router
 .get('/:uid', userController.getUserId)
 .post('/', userController.insertUser)
 
+.get('/user/:tel', userController.getUserTel)
+
 export default router;
