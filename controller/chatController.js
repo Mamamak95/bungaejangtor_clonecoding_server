@@ -11,3 +11,15 @@ export async function getChatLog(req,res){
   const data=await chatRepository.getChatLog(crid)
 res.json(data)
 }
+
+export async function createChat(req,res){
+  const {uid,pid}=req.body
+  const result=await chatRepository.createChatRoom(uid,pid)
+  res.json(result)
+}
+
+export async function readChat(req,res){
+  const {crid,isBuyer}=req.body
+  const data=await chatRepository.readChat(crid,isBuyer)
+  res.json(data)
+}
