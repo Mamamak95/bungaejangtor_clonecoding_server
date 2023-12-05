@@ -17,6 +17,14 @@ export async function getUserId( uid ){
   .then((rows) => rows[0][0])
 }
 
+/* 폰번호 체크 */
+export async function getUserTel( tel ){
+
+  return db
+  .execute('select count(tel) as cnt from user where tel = ?', [tel])
+  .then((rows) => rows[0][0])
+}
+
 /* 로그인 */
 export async function getLogin( uid ){
 
