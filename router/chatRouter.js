@@ -5,8 +5,9 @@ import express from 'express'
 //채팅 정보 수신 관련 연결
 const chatRouter = (io)=>{
   const router= express.Router()
+  router.post('/log',chatController.readChat)
   router.post('/list',chatController.getChat)
-  router.post('/log',chatController.getChatLog)
+  router.post('/refresh',chatController.getChatLog)
   router.post('/create',chatController.createChat)
   
   //소켓 관련 연결
