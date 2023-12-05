@@ -58,6 +58,7 @@ export async function detail(pid) {
   p.regdate,
   p.content,
   p.productName,
+  p.sellStatus,
   FORMAT(p.price, 0) AS price,
   GROUP_CONCAT(pi.img) AS images,
   u.img AS userImage,
@@ -92,6 +93,8 @@ export async function similiar() {
               product p JOIN productImage pi 
             ON 
               p.pid = pi.pid
+            WHERE
+              p.sellStatus = 'Available'
             LIMIT 10;
                           
                 `
