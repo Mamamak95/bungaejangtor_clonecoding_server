@@ -49,13 +49,28 @@ export async function newProduct(req, res) {
 // 상품상세
 
 export async function detail(req,res) {
-  let {pid} = req.params;
+  let {pid,uid} = req.params;
   let result = await productsRepository.detail(pid);
   let result2 = await productsRepository.similiar();
 
   let seller = result[0].seller
 
   let result3 = await productsRepository.shop(seller); 
+  let result4 = await productsRepository.userWish(uid)
 
-  res.json({product:result[0],slide:result2,shopData:result3})
+  res.json({product:result[0],slide:result2,shopData:result3,wishList:result4})
 }
+
+// 찜등록
+export async function addWishList(req,res) {
+  let {uid,pid,btnWish} = req.body
+  if(btnWish){
+    let result = await productsRepository.deleteWishList(uid,pid)
+    res.json(result)
+  }else{
+    let result = await productsRepository.addWishList(uid,pid)
+    res.json(result)
+  }
+
+}
+

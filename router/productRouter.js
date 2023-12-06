@@ -5,8 +5,9 @@ import express from 'express'
 const router = express.Router()
 
 
-router.get('/:pid',productController.detail)
+router.get('/:pid/:uid',productController.detail)
 router.post('/new/:id',productController.newProduct);
+router.post('/wish',productController.addWishList);
 
 
 

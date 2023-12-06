@@ -1,6 +1,6 @@
 import { db } from '../db/database.js'
 
-export async function newProduct(seller, productName,content, price, place, category) {
+export async function newProduct(seller, productName, content, price, place, category) {
   const sql = `
                 insert into product  (seller, 
                   regdate, 
@@ -28,7 +28,7 @@ export async function newProduct(seller, productName,content, price, place, cate
                 
                 `
   return db
-    .execute(sql,[seller,content,productName,price,place,category])
+    .execute(sql, [seller, content, productName, price, place, category])
     .then((result) => {
       const lastInsertedId = result[0].insertId;
 
@@ -38,7 +38,7 @@ export async function newProduct(seller, productName,content, price, place, cate
 
 }
 
-export async function productImg(pid,img) {
+export async function productImg(pid, img) {
   const sql = `
             INSERT INTO productImage (pid, img, date)
             VALUES
@@ -46,7 +46,7 @@ export async function productImg(pid,img) {
                           
                 `
   return db
-    .execute(sql,[pid,img])
+    .execute(sql, [pid, img])
     .then((result) => 'success')
 }
 
@@ -76,7 +76,7 @@ GROUP BY
                                 
                 `
   return db
-    .execute(sql,[pid])
+    .execute(sql, [pid])
     .then((result) => result[0])
 }
 
@@ -99,7 +99,7 @@ export async function similiar() {
                           
                 `
   return db
-    .execute(sql,[])
+    .execute(sql, [])
     .then((result) => result[0])
 }
 
@@ -122,6 +122,29 @@ export async function shop(seller) {
                           
                 `
   return db
-    .execute(sql,[seller])
+    .execute(sql, [seller])
     .then((result) => result[0])
+}
+
+
+
+export async function userWish(uid) {
+  const sql = ` select bid,pid from wishList where uid= ?;`
+  return db
+    .execute(sql, [uid])
+    .then((result) => result[0])
+}
+
+export async function addWishList(uid, pid) {
+  const sql = ` INSERT INTO wishList (uid, pid, date)
+                  VALUES (?, ?, NOW());`
+  return db
+    .execute(sql, [uid, pid])
+    .then((result) => 'success')
+}
+export async function deleteWishList(uid, pid) {
+  const sql = ` DELETE FROM wishList WHERE uid = ? AND pid = ?;`
+  return db
+    .execute(sql, [uid, pid])
+    .then((result) => 'success')
 }
