@@ -9,5 +9,10 @@ export async function connectRoom(info,socket,io) {
 export async function sendMessage(message,socket,io) {
     const {crid,sender,receiver,content}=message
     const result = await chatRepository.sendMessage(crid,sender,receiver,content)
-    io.to(sender).to(receiver).emit("received-message", result);
+    io.to(sender).to(receiver).emit("received-message", result,crid);
+}
+
+export async function readMessage(info,socket,io){
+    const {receiver,sender,crid}=info
+    io.to(sender).emit("read-message",receiver,crid)
 }

@@ -19,7 +19,7 @@ export async function createChat(req,res){
 }
 
 export async function readChat(req,res){
-  const {crid,isBuyer}=req.body
-  const data=await chatRepository.readChat(crid,isBuyer)
-  res.json(data)
+  const {crid,uid}=req.body
+  const result=await chatRepository.readChat(crid,uid)
+  res.json(result)
 }

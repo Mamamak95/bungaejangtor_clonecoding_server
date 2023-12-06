@@ -5,7 +5,7 @@ import express from 'express'
 //채팅 정보 수신 관련 연결
 const chatRouter = (io)=>{
   const router= express.Router()
-  router.post('/log',chatController.readChat)
+  router.post('/read',chatController.readChat)
   router.post('/list',chatController.getChat)
   router.post('/refresh',chatController.getChatLog)
   router.post('/create',chatController.createChat)
@@ -14,7 +14,9 @@ const chatRouter = (io)=>{
   io.on("connection", (socket) => {
     socket.on("connect-room",(info)=>socketController.connectRoom(info,socket,io))
     socket.on("send-message",(message)=>socketController.sendMessage(message,socket,io))
+    socket.on("read-message",(info)=>socketController.readMessage(info,socket,io))
     socket.on("disconnect",()=>console.log('socket disconnected'))
+
   });
   return router
 }
