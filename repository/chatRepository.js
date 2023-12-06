@@ -4,8 +4,17 @@ import { db } from "../db/database.js";
 export async function getChat(id) {
   return db
     .execute(
-      "select cr.crid as crid, cr.buyer as buyer,buyer.name as buyerName,buyer.img as buyerImg,cr.seller as seller,seller.name as sellerName,seller.img as sellerImg,cr.lastestMessage as lastestMessage,buyerCheck,sellerCheck from (select * from chatRoom as cr where ?=cr.buyer or ?=cr.seller) as cr, user as buyer,user as seller where cr.buyer=buyer.uid and cr.seller=seller.uid",
-      [id, id]
+      `select cr.crid as crid, cr.buyer as buyer,buyer.name as buyerName,buyer.img as buyerImg,cr.seller as seller,seller.name as sellerName,seller.img as sellerImg,cr.lastestMessage as lastestMessage,readCount.cnt as cnt
+      from 
+        (select * from chatRoom as cr where ?=cr.buyer or ?=cr.seller) as cr, 
+          user as buyer,
+          user as seller,
+          (select crid,count(case when isread=false and receiver=? then 1 end) cnt from chat where receiver=? or sender=? group by crid) as readCount
+      where 
+        cr.buyer=buyer.uid and 
+        cr.seller=seller.uid and
+          readCount.crid=cr.crid`,
+      [id, id,id,id,id]
     )
     .then((res) => res[0]);
 }
@@ -14,23 +23,17 @@ export async function getChat(id) {
 export async function getChatLog(crid) {
   return db
     .execute(
-      'select content,sender,receiver, date_format(date,"%Y:%m:%d:%H:%i:%s") as date from chat where crid=? order by date',
+      'select content,sender,receiver, date_format(date,"%Y:%m:%d:%H:%i:%s") as date,isRead  from chat where crid=? order by date',
       [crid]
     )
     .then((data) => data[0]);
 }
 
 //crid, buyer or seller 받으면 채팅방정보 열람시간 갱신하고 열람시간 리턴
-export async function readChat(crid,isBuyer){
-  const check=isBuyer?'buyerCheck':'sellerCheck'
-  const now=()=>{
-    var today = new Date();
-    today.setHours(today.getHours() + 9);
-    return today.toISOString().replace('T', ' ').substring(0, 19);
-  }
-  const time=now()
-  return db.execute(`update chatRoom set ${check}='${now()}' where crid=?`,[crid])
-  .then(res=>time).catch(err=>console.log(err))
+export async function readChat(crid,uid){
+  
+  return db.execute(`update chat set isRead=true where crid=? and receiver=?`,[crid,uid])
+  .then(res=>true).catch(err=>console.log(err))
 }
 
 
@@ -39,7 +42,7 @@ export async function readChat(crid,isBuyer){
 export async function sendMessage(crid, sender, receiver, content) {
   return db
     .execute(
-      "insert into chat(date_format(date,'%Y:%m:%d:%H:%i:%s') as date,content,sender,receiver,crid) values(now(),?,?,?,?)",
+      "insert into chat(date,content,sender,receiver,crid,isread) values(now(),?,?,?,?,false)",
       [content, sender, receiver, crid]
     )
     .then((res) => updateLastMessage(crid, content));
