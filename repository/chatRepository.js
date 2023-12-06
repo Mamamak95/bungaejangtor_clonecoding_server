@@ -12,8 +12,7 @@ export async function getChat(id) {
           (select crid,count(case when isread=false and receiver=? then 1 end) cnt from chat where receiver=? or sender=? group by crid) as readCount
       where 
         cr.buyer=buyer.uid and 
-        cr.seller=seller.uid and
-          readCount.crid=cr.crid`,
+        cr.seller=seller.uid`,
       [id, id,id,id,id]
     )
     .then((res) => res[0]);
