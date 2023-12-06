@@ -8,7 +8,8 @@ const storage = multer.diskStorage({
     cb(null, 'productImg/');
   },
   filename: (req, file, cb) => {
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1E9)}`;
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
   },
 });
 
@@ -26,7 +27,6 @@ export async function newProduct(req, res) {
 
       
       let pid = await productsRepository.newProduct(seller, productName,content, price, place, category)
-      console.log(pid);
 
       imgUrl = req.files.map(file => {
         return file.path;
