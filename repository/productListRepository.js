@@ -8,12 +8,14 @@ export async function getAll() {
                       first_value(pi.img) over (PARTITION BY p.pid ORDER BY pi.pid) AS img,
                       p.regdate,
                       format(p.price,0) price,
-                      p.sellStatus
+                      p.sellStatus,
+                      p.place
                 FROM 
                       product p JOIN productImage pi 
                 ON 
                       p.pid = pi.pid
-
+                WHERE 
+                      p.sellStatus = "Available" 
                 ORDER BY 
                       p.regdate desc    
                 LIMIT 10 offset 0
@@ -32,12 +34,14 @@ export async function loadMore({newLimit, offset}) {
                       first_value(pi.img) over (PARTITION BY p.pid ORDER BY pi.pid) AS img,
                       p.regdate,
                       format(p.price,0) price,
-                      p.sellStatus
+                      p.sellStatus,
+                      p.place
                 FROM 
                       product p JOIN productImage pi 
                 ON 
                       p.pid = pi.pid
-
+                WHERE 
+                      p.sellStatus = "Available" 
                 ORDER BY 
                       p.regdate desc    
                 LIMIT ? offset ?
