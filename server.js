@@ -6,9 +6,9 @@ import productRouter from "./router/productRouter.js";
 import loginRouter from "./router/loginRouter.js";
 import signRouter from "./router/signRouter.js";
 import productListRouter from "./router/productListRouter.js";
+// import wishRouter from "./router/wishRouter.js";
 import { Server } from "socket.io";
 import http from "http";
-
 const server = express();
 
 server.use(cors()).use(express.json()).use(express.urlencoded());
@@ -29,6 +29,8 @@ server.use("/sign", signRouter);
 server.use("/login", loginRouter);
 server.use("/chat", chatRouter(io));
 server.use("/product", productRouter);
+// server.use("/wishList",wishRouter) 
+
 server.use("/productImg", express.static("productImg"));
 server.use("/webImg", express.static("webImg"));
 server.use("/userImg", express.static("userImg"));
