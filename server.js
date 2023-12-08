@@ -7,7 +7,7 @@ import loginRouter from "./router/loginRouter.js";
 import signRouter from "./router/signRouter.js";
 import productListRouter from "./router/productListRouter.js";
 
-import wishRouter from "./router/wishRouter.js";
+// import wishRouter from "./router/wishRouter.js";
 
 import { Server } from "socket.io";
 import http from "http";
@@ -32,7 +32,7 @@ server.use("/login", loginRouter);
 server.use("/chat", chatRouter(io));
 server.use("/product", productRouter);
 
-server.use("/wishList",wishRouter) 
+// server.use("/wishList",wishRouter) 
 
 
 server.use("/productImg", express.static("productImg"));
