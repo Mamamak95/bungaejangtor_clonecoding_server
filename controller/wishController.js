@@ -9,4 +9,19 @@ export async function WishList(req, res) {
   res.json(result)
 
 }
+export async function removeList(req, res) {
+  let { uid } = req.params;
+  const results = [];
+
+  try {
+    for (let bid of req.body) {
+      let success = await wishRepository.orderList(uid,bid);
+      results.push(success)
+    };
+  } catch (error) {
+    console.error(error);
+  }
+  res.json(results);
+
+}
 

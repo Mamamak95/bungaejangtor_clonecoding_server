@@ -34,3 +34,14 @@ export async function WishList(uid) {
             .execute(sql, [uid])
             .then((result) => result[0])
 }
+
+export async function orderList(uid,bid) {
+      const sql = `              
+                  DELETE FROM wishList
+                  WHERE uid = ? AND bid = ?;
+              `
+
+      return db
+            .execute(sql, [uid,bid])
+            .then((result) => result[0])
+}
