@@ -7,6 +7,7 @@ const router = express.Router()
 
 
 router.get('/:uid',wishController.WishList);
+router.post('/:uid',wishController.removeList);
 
 
 
