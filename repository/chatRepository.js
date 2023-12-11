@@ -24,7 +24,7 @@ export async function getChat(id) {
 export async function getChatLog(crid) {
   return db
     .execute(
-      'select content,sender,receiver, date_format(date,"%Y:%m:%d:%H:%i:%s") as date,isRead  from chat where crid=? order by date',
+      'select content,sender,receiver, date,isRead  from chat where crid=? order by date',
       [crid]
     )
     .then((data) => data[0]);
