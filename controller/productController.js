@@ -49,16 +49,34 @@ export async function newProduct(req, res) {
 // 상품상세
 
 export async function detail(req,res) {
-  let {pid,uid} = req.params;
-  let result = await productsRepository.detail(pid);
-  let result2 = await productsRepository.similiar();
+  // let {pid,uid} = req.params;
+  // let result = await productsRepository.detail(pid);
+  // let result2 = await productsRepository.similiar();
 
-  let seller = result[0].seller
+  // let seller =  result ? result[0].seller : null
 
-  let result3 = await productsRepository.shop(seller); 
-  let result4 = await productsRepository.userWish(uid)
+  // let result3 = await productsRepository.shop(seller); 
+  // let result4 = await productsRepository.userWish(uid)
 
-  res.json({product:result[0],slide:result2,shopData:result3,wishList:result4})
+  // res.json({product:result[0],slide:result2,shopData:result3,wishList:result4})
+
+  try {
+    let { pid, uid } = req.params;
+    let result = await productsRepository.detail(pid);
+
+    // Check if result has any elements before accessing properties
+    let seller = result && result.length > 0 ? result[0].seller : null;
+
+    let result2 = await productsRepository.similiar();
+    let result3 = await productsRepository.shop(seller);
+    let result4 = await productsRepository.userWish(uid);
+
+    res.json({ product: result[0], slide: result2, shopData: result3, wishList: result4 });
+  } catch (error) {
+    // Handle errors here
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 }
 
 // 찜등록

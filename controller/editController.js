@@ -1,4 +1,6 @@
 import * as editRepository from '../repository/editRepository.js';
+import * as productsRepository from '../repository/productsRepository.js';
+
 import multer from 'multer';
 import path from 'path';
 
@@ -16,45 +18,49 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage }).array('images');
 
 // 상품등록
-// export async function newProduct(req, res) {
-//   let imgUrl = [];
-//   await upload(req, res, async (err) => {
-//     if (err) {
-//       console.log(err);
-//     } else {
+export async function renew(req, res) {
+  let { pid } = req.params
+  let imgUrl = [];
+  await upload(req, res, async (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      let deleteImgArr = JSON.parse(req.body.deleteImg);
+      let {seller, productName, category, place, price, content } = JSON.parse(req.body.form);
 
-//       let {seller, productName, category, place, price, content } = JSON.parse(req.body.form);
 
-      
-//       let pid = await productsRepository.newProduct(seller, productName,content, price, place, category)
+      let result = await editRepository.renewProduct(seller, productName,content, price, place, category,pid)
+      console.log();
+      imgUrl = req.files.map(file => {
+        return file.path;
+      });
 
-//       imgUrl = req.files.map(file => {
-//         return file.path;
-//       });
-
-//       let result =[]
-//       try {
-//         for (let img of imgUrl) {
-//           let success = await productsRepository.productImg(pid,img);
-//           result.push(success)
-//         };
-//       } catch (error) {
-//         console.error(error);
-//       }
-//       res.json(result);
-//     }
-//   });
-// }
+      let result2 =[]
+      try {
+            for (let imageid of deleteImgArr){
+              let success = await editRepository.deleteImg(imageid)
+            }
+        for (let img of imgUrl) {
+          let success = await productsRepository.productImg(pid,img);
+          result2.push(success)
+        };
+      } catch (error) {
+        console.error(error);
+      }
+      res.json(result2);
+    }
+  });
+}
 
 
 
 
 // 찜등록
-export async function editProduct(req,res) {
-  const {pid} = req.params;
+export async function editProduct(req, res) {
+  const { pid } = req.params;
   let result = await editRepository.editProduct(pid)
   let images = await editRepository.imgList(pid)
-  res.json({data:result[0] , image : images})
+  res.json({ data: result[0], image: images })
 }
 
 

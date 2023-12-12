@@ -7,7 +7,7 @@ const router = express.Router()
 
 
 router.get('/:pid',editController.editProduct);
-
+router.post('/:pid',editController.renew)
 
 
 
