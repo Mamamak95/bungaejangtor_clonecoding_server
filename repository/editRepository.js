@@ -1,42 +1,36 @@
 import { db } from '../db/database.js'
 
-// export async function newProduct(seller, productName, content, price, place, category) {
-//   const sql = `
-//                 insert into product  (seller, 
-//                   regdate, 
-//                   content, 
-//                   productName, 
-//                   price, 
-//                   buyer, 
-//                   place, 
-//                   category, 
-//                   productStatus, 
-//                   sellStatus, 
-//                   includeDelivery)
-//               values
-//                   (?, 
-//                   sysdate(), 
-//                   ?, 
-//                   ?, 
-//                   ?, 
-//                   null, 
-//                   ?, 
-//                   ?, 
-//                   'Used', 
-//                   'Available', 
-//                   true);
+export async function renewProduct(seller, productName, content, price, place, category, pid) {
+  const sql = `
+    UPDATE product
+    SET
+      seller = ?,
+      content = ?,
+      productName = ?,
+      price = ?,
+      place = ?,
+      category = ?,
+      productStatus = 'Used',
+      sellStatus = 'Available',
+      includeDelivery = true
+    WHERE pid = ?;
+  `;
 
-//                 `
-//   return db
-//     .execute(sql, [seller, content, productName, price, place, category])
-//     .then((result) => {
-//       const lastInsertedId = result[0].insertId;
+  return db
+    .execute(sql, [seller, content, productName, price, place, category, pid])
+    .then((result) => 'success');
+}
 
-//       // You can now use 'lastInsertedId' as the pid value or return it
-//       return lastInsertedId;
-//     })
+export async function deleteImg(imageid) {
+  const sql = `
+                DELETE FROM productImage
+                WHERE imageid = ?;
 
-// }
+                `
+  return db
+    .execute(sql, [imageid])
+    .then((result) => 'success')
+}
 
 // export async function productImg(pid, img) {
 //   const sql = `
