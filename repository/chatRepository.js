@@ -4,7 +4,7 @@ import { db } from "../db/database.js";
 export async function getChat(id) {
   return db
     .execute(
-      `select cr.pid as pid,p.productName as pname,p.price as price,pi.img as productImg, cr.crid as crid,lastestdate as date, cr.buyer as buyer,buyer.name as buyerName,buyer.img as buyerImg,cr.seller as seller,seller.name as sellerName,seller.img as sellerImg,cr.lastestMessage as lastestMessage,readCount.cnt
+      `select cr.pid as pid,p.productName as pname,p.price as price,p.sellStatus as sellStatus,pi.img as productImg, cr.crid as crid,lastestdate as date, cr.buyer as buyer,buyer.name as buyerName,buyer.img as buyerImg,cr.seller as seller,seller.name as sellerName,seller.img as sellerImg,cr.lastestMessage as lastestMessage,readCount.cnt
       from 
         (select * from chatRoom as cr where ?=cr.buyer or ?=cr.seller) as cr inner join
           user as buyer
@@ -15,7 +15,7 @@ export async function getChat(id) {
           on cr.crid=readCount.crid left join
           product as p
           on cr.pid=p.pid left join
-          productimage as pi
+          (select distinct pid, first_value(img) over(PARTITION BY pid order by img) as img from productimage) as pi
           on p.pid=pi.pid
           order by date desc
         `,
