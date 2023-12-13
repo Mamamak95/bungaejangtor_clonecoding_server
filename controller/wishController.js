@@ -4,9 +4,10 @@ import * as wishRepository from '../repository/wishRepository.js';
 
 // 찜리스트
 export async function WishList(req, res) {
-  let { uid } = req.params;
-  let result =  await wishRepository.WishList(uid)
-  res.json(result)
+  let { uid, startIndex, endIndex, sort } = req.params;
+    let result = await wishRepository.WishList(uid, startIndex, endIndex,sort)
+    res.json(result)
+
 
 }
 export async function removeList(req, res) {
@@ -15,7 +16,7 @@ export async function removeList(req, res) {
 
   try {
     for (let bid of req.body) {
-      let success = await wishRepository.orderList(uid,bid);
+      let success = await wishRepository.orderList(uid, bid);
       results.push(success)
     };
   } catch (error) {
