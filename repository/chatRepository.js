@@ -15,7 +15,7 @@ export async function getChat(id) {
           on cr.crid=readCount.crid left join
           product as p
           on cr.pid=p.pid left join
-          productimage as pi
+          (select distinct pid, first_value(img) over(PARTITION BY pid order by img) as img from productimage) as pi
           on p.pid=pi.pid
           order by date desc
         `,
