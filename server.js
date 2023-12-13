@@ -6,8 +6,10 @@ import productRouter from "./router/productRouter.js";
 import loginRouter from "./router/loginRouter.js";
 import signRouter from "./router/signRouter.js";
 import productListRouter from "./router/productListRouter.js";
-// import editRouter from "./router/editRouter.js";
+import editRouter from "./router/editRouter.js";
 import wishRouter from "./router/wishRouter.js";
+import purchaseRouter from "./router/purchaseRouter.js"
+
 
 import { Server } from "socket.io";
 import http from "http";
@@ -32,7 +34,8 @@ server.use("/login", loginRouter);
 server.use("/chat", chatRouter(io));
 server.use("/product", productRouter);
 server.use("/wishList",wishRouter) 
-// server.use("/edit",editRouter)
+server.use("/edit",editRouter)
+server.use("/purchase",purchaseRouter)
 
 server.use("/productImg", express.static("productImg"));
 server.use("/webImg", express.static("webImg"));
