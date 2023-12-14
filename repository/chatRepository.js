@@ -79,7 +79,6 @@ export async function createChatRoom(uid, pid) {
       pid,
     ])
     .then((res) => res[0][0].cnt);
-    console.log('check',check)
   const seller = await db.execute("select seller from product where pid=?", [pid]).then(res=>res[0][0].seller)
 
   if (check==0) {
