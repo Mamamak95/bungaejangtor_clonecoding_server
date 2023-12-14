@@ -9,7 +9,7 @@ export async function purchase(pid, buyer, seller) {
     const trade = await db
       .execute(
         `insert into tradeList (pid,buyer,seller,date)
-      values(?,?,?,sysdate())
+      values(?,?,?,now())
         `,
         [pid, buyer, seller]
       )
