@@ -9,6 +9,7 @@ import editRouter from "./router/editRouter.js";
 import wishRouter from "./router/wishRouter.js";
 import purchaseRouter from "./router/purchaseRouter.js"
 import reviewRouter from "./router/reviewRouter.js"
+import profileRouter from "./router/profileRouter.js"
 
 
 import { Server } from "socket.io";
@@ -36,6 +37,7 @@ server.use("/wishList",wishRouter)
 server.use("/edit",editRouter)
 server.use("/purchase",purchaseRouter)
 server.use('/review',reviewRouter)
+server.use('/profile',profileRouter)
 
 server.use("/productImg", express.static("productImg"));
 server.use("/webImg", express.static("webImg"));

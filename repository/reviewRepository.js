@@ -14,7 +14,7 @@ export async function getReviewForm(pid, uid, tid) {
 export async function postReview(pid, uid, tid, content, score) {
   return db.execute(
     `insert into review(uid,target,score,content,date,tid) 
-    values(?,(select uid as target from product where pid=?),?,?,sysdate(),?)`,
+    values(?,(select seller as target from product where pid=?),?,?,sysdate(),?)`,
     [uid,pid,score,content,tid]
   ).then(res=>true).catch(err=>console.log(err))
 }

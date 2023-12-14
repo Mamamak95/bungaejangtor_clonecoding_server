@@ -15,7 +15,6 @@ const chatRouter = (io)=>{
     socket.on("connect-room",(info)=>socketController.connectRoom(info,socket,io))
     socket.on("send-message",(message)=>socketController.sendMessage(message,socket,io))
     socket.on("read-message",(info)=>socketController.readMessage(info,socket,io))
-    // socket.on("disconnect",()=>console.log('socket disconnected'))
 
   });
   return router
