@@ -10,6 +10,8 @@ import wishRouter from "./router/wishRouter.js";
 import purchaseRouter from "./router/purchaseRouter.js"
 import reviewRouter from "./router/reviewRouter.js"
 import profileRouter from "./router/profileRouter.js"
+import saveRouter from "./router/saveRouter.js"
+import searchListRouter from "./router/searchListRouter.js"
 
 
 import { Server } from "socket.io";
@@ -38,6 +40,8 @@ server.use("/edit",editRouter)
 server.use("/purchase",purchaseRouter)
 server.use('/review',reviewRouter)
 server.use('/profile',profileRouter)
+server.use('/save',saveRouter)
+server.use('/search',searchListRouter)
 
 server.use("/productImg", express.static("productImg"));
 server.use("/webImg", express.static("webImg"));

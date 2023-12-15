@@ -24,13 +24,14 @@ export async function newProduct(req, res) {
     } else {
 
       let {seller, productName, category, place, price, content } = JSON.parse(req.body.form);
-
       
       let pid = await productsRepository.newProduct(seller, productName,content, price, place, category)
-
+      
       imgUrl = req.files.map(file => {
         return file.path;
       });
+
+      imgUrl = JSON.parse(req.body.saveImg).length ? [...JSON.parse(req.body.saveImg),...imgUrl] : imgUrl;
 
       let result =[]
       try {
