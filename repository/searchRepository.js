@@ -43,20 +43,18 @@ export async function getSearchPopular( value ){
 
   const sql = `
                 SELECT 
-                DISTINCT p.pid, 
-                p.productName,
-                first_value(pi.img) over (PARTITION BY p.pid ORDER BY pi.pid) AS img,
-                p.regdate,
-                format(p.price,0) price,
-                p.sellStatus
+                row_number() over (ORDER BY COUNT(p.productName) DESC) as rno, s.searchName, COUNT(p.productName) as count
                 FROM 
-                product p JOIN productImage pi 
-                ON 
-                p.pid = pi.pid
+                search s
+                JOIN 
+                product p ON p.productName LIKE CONCAT('%', s.searchName, '%')
                 WHERE 
-                p.productName like ? 
+                p.productName IS NOT NULL
+                GROUP BY 
+                s.searchName
                 ORDER BY 
-                p.regdate desc
+                count DESC
+                LIMIT 10;
               `
 
   return db

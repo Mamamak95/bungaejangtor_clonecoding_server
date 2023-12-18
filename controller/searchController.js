@@ -12,7 +12,7 @@ export async function getSearchList(req, res){
 export async function insertSearchName(req, res){
   const { value } = req.body;
   const result = await searchRepository.insertSearchName({value});
-  console.log(value);
+
   res.json(result);
 }
 
@@ -20,7 +20,7 @@ export async function insertSearchName(req, res){
 export async function getSearchPopular(req, res){
   const { value } = req.params;
   const result = await searchRepository.getSearchPopular({value});
-  console.log(value);
+
   res.json(result);
 }
 
