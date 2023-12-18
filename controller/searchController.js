@@ -8,6 +8,22 @@ export async function getSearchList(req, res){
   res.json(result);
 }
 
+/* 상품이름검색 서버로 저장 */
+export async function insertSearchName(req, res){
+  const { value } = req.body;
+  const result = await searchRepository.insertSearchName({value});
+  console.log(value);
+  res.json(result);
+}
+
+/* 상품 인기검색어 가져오기 */
+export async function getSearchPopular(req, res){
+  const { value } = req.params;
+  const result = await searchRepository.getSearchPopular({value});
+  console.log(value);
+  res.json(result);
+}
+
 /* 상품리스트 페이지네이션 */
 // export async function getPageList(req, res){
 //   const { searchName, newLimit, offset } = req.params;
