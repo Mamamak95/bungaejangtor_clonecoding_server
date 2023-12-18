@@ -21,14 +21,14 @@ export async function renewProduct(seller, productName, content, price, place, c
     .then((result) => 'success');
 }
 
-export async function deleteImg(imageid) {
+export async function deleteImg(pid) {
   const sql = `
                 DELETE FROM productImage
-                WHERE imageid = ?;
+                WHERE pid = ?;
 
                 `
   return db
-    .execute(sql, [imageid])
+    .execute(sql, [pid])
     .then((result) => 'success')
 }
 

@@ -25,24 +25,33 @@ export async function renew(req, res) {
     if (err) {
       console.log(err);
     } else {
-      let deleteImgArr = JSON.parse(req.body.deleteImg);
-      let {seller, productName, category, place, price, content } = JSON.parse(req.body.form);
+      // let deleteImgArr = JSON.parse(req.body.deleteImg);
+      let { seller, productName, category, place, price, content } = JSON.parse(req.body.form);
 
 
-      let result = await editRepository.renewProduct(seller, productName,content, price, place, category,pid)
-      console.log();
-      imgUrl = req.files.map(file => {
-        return file.path;
-      });
+      let result = await editRepository.renewProduct(seller, productName, content, price, place, category, pid)
 
-      let result2 =[]
+      if (req.files) {
+        imgUrl = req.files.map(file => file.path);
+      }
+
+
+
+      if (req.body.tempImg) {
+        let tempImg = JSON.parse(req.body.tempImg);
+        imgUrl = [...tempImg,...imgUrl];
+      } else {
+        let saveImg = JSON.parse(req.body.saveImg);
+        imgUrl = [...saveImg.map(v => v.img), ...imgUrl];
+      }
+
+
+      let result2 = []
       try {
-            for (let imageid of deleteImgArr){
-              let success = await editRepository.deleteImg(imageid)
-            }
+        let success = await editRepository.deleteImg(pid)
         for (let img of imgUrl) {
-          let success = await productsRepository.productImg(pid,img);
-          result2.push(success)
+          let success2 = await productsRepository.productImg(pid, img);
+          result2.push(success2)
         };
       } catch (error) {
         console.error(error);
