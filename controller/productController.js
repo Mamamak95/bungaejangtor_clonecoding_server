@@ -31,7 +31,7 @@ export async function newProduct(req, res) {
         return file.path;
       });
 
-      imgUrl = JSON.parse(req.body.saveImg).length ? [...JSON.parse(req.body.saveImg),...imgUrl] : imgUrl;
+      imgUrl =  req.body.saveImg && req.body.saveImg.length ? [...JSON.parse(req.body.saveImg),...imgUrl] : imgUrl;
 
       let result =[]
       try {
