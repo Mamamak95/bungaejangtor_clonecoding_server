@@ -12,6 +12,7 @@ import reviewRouter from "./router/reviewRouter.js"
 import profileRouter from "./router/profileRouter.js"
 import saveRouter from "./router/saveRouter.js"
 import searchListRouter from "./router/searchListRouter.js"
+import reviewListRouter from "./router/reviewListRouter.js"
 
 
 import { Server } from "socket.io";
@@ -39,6 +40,7 @@ server.use("/wishList",wishRouter)
 server.use("/edit",editRouter)
 server.use("/purchase",purchaseRouter)
 server.use('/review',reviewRouter)
+server.use('/reviewList',reviewListRouter)
 server.use('/profile',profileRouter)
 server.use('/save',saveRouter)
 server.use('/search',searchListRouter)
