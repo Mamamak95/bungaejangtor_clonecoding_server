@@ -3,7 +3,8 @@
 ### 서버 https://github.com/Mamamak95/bungaejangtor_clonecoding_server
 
 
-![localhost_3000_ (2)](https://github.com/Mamamak95/bungaejangtor_clonecoding/assets/79183851/5a89776d-33c3-43ed-bc14-715b3e8318ba)
+![main](https://github.com/Mamamak95/bungaejangtor_clonecoding_server/assets/79183851/7c427adc-273d-4eed-bf80-26ebf54f5e44)
+
 
 ## 내용
 
