@@ -2,6 +2,15 @@
 ### 클라이언트 https://github.com/Mamamak95/bungaejangtor_clonecoding
 ### 서버 https://github.com/Mamamak95/bungaejangtor_clonecoding_server
 
+클라이언트는 리액트를 사용했고 react-router를 통해 SPA 방식으로 구성했습니다.
+
+그리고 axios와 socket.io-client 라이브러리를 사용하여 서버와 통신합니다.
+
+
+
+서버는 Node.js와 Express.js를 메인으로 사용했고 채팅을 위한 실시간 통신은 socket.io를 사용했습니다. 
+
+MVC 패턴으로 유지 보수가 용이하도록 구성했습니다.
 
 ![main](https://github.com/Mamamak95/bungaejangtor_clonecoding_server/assets/79183851/7c427adc-273d-4eed-bf80-26ebf54f5e44)
 
@@ -37,8 +46,6 @@
 찜 : 사용자가 관심 있는 상품을 찜을 통해 북마크를 할 수 있고 찜 목록에서 확인할 수 있습니다.
 
 상품 관리 : 등록한 상품을 삭제하거나 판매 완료로 상품 정보를 업데이트하거나 내용을 수정할 수 있습니다.
-
-
 
 
 ## 참여자
