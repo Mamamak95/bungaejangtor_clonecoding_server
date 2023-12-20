@@ -13,6 +13,7 @@ import profileRouter from "./router/profileRouter.js"
 import saveRouter from "./router/saveRouter.js"
 import searchListRouter from "./router/searchListRouter.js"
 import productmanageRouter from "./router/productmanageRouter.js"
+import reviewListRouter from "./router/reviewListRouter.js"
 
 import { Server } from "socket.io";
 import http from "http";
@@ -39,7 +40,7 @@ server.use("/wishList",wishRouter)
 server.use("/edit",editRouter)
 server.use("/purchase",purchaseRouter)
 server.use('/review',reviewRouter)
-//server.use('/reviewList',reviewListRouter)
+server.use('/reviewList',reviewListRouter)
 server.use('/profile',profileRouter)
 server.use('/save',saveRouter)
 server.use('/search',searchListRouter)
