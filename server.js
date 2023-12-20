@@ -12,8 +12,8 @@ import reviewRouter from "./router/reviewRouter.js"
 import profileRouter from "./router/profileRouter.js"
 import saveRouter from "./router/saveRouter.js"
 import searchListRouter from "./router/searchListRouter.js"
+import productmanageRouter from "./router/productmanageRouter.js"
 import reviewListRouter from "./router/reviewListRouter.js"
-
 
 import { Server } from "socket.io";
 import http from "http";
@@ -44,6 +44,7 @@ server.use('/reviewList',reviewListRouter)
 server.use('/profile',profileRouter)
 server.use('/save',saveRouter)
 server.use('/search',searchListRouter)
+server.use('/productmanage',productmanageRouter)
 
 server.use("/productImg", express.static("productImg"));
 server.use("/webImg", express.static("webImg"));
