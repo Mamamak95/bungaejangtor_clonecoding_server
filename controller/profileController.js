@@ -17,3 +17,10 @@ export async function commentUpdate(req,res){
   const result = await profileRepository.commentUpdate({updatedComment, uid});
   res.json(result);
 }
+
+//상품목록
+export async function userItemGetAll(req,res){
+  const {seller,buyer,sort } = req.params;
+  const result = await profileRepository.userItemGetAll({seller,buyer,sort});
+  res.json(result);
+}
